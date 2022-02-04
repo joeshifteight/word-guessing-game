@@ -15,6 +15,7 @@ import {
   WIN_MESSAGES,
   GAME_COPIED_MESSAGE,
   ABOUT_GAME_MESSAGE,
+  RESET_GAME_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
   WORD_NOT_FOUND_MESSAGE,
   CORRECT_WORD_MESSAGE,
@@ -24,6 +25,7 @@ import { addStatsForCompletedGame, loadStats } from './lib/stats'
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
+  clearGameStateToLocalStorage,
 } from './lib/localStorage'
 
 import './App.css'
@@ -100,6 +102,8 @@ function App() {
         setIsStatsModalOpen(true)
       }, ALERT_TIME_MS)
     }
+
+    console.log('joe test')
   }, [isGameWon, isGameLost])
 
   const onChar = (value: string) => {
@@ -199,6 +203,14 @@ function App() {
         onClick={() => setIsAboutModalOpen(true)}
       >
         {ABOUT_GAME_MESSAGE}
+      </button>
+
+      <button
+        type="button"
+        className="mx-auto mt-8 flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 select-none"
+        onClick={() => clearGameStateToLocalStorage({ guesses, solution })}
+      >
+        {RESET_GAME_MESSAGE}
       </button>
 
       <Alert message={NOT_ENOUGH_LETTERS_MESSAGE} isOpen={isNotEnoughLetters} />
