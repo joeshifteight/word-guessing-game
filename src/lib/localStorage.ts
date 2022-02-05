@@ -11,9 +11,10 @@ export const saveGameStateToLocalStorage = (gameState: StoredGameState) => {
 
 export const clearGameStateToLocalStorage = (gameState: StoredGameState) => {
   localStorage.removeItem(gameStateKey)
-  console.log("clearGameStateToLocalStorage")
   window.location.reload();
+  console.log("clearGameStateToLocalStorage")
 }
+
 export const loadGameStateFromLocalStorage = () => {
   const state = localStorage.getItem(gameStateKey)
   return state ? (JSON.parse(state) as StoredGameState) : null

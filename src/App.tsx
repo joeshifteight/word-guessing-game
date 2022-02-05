@@ -9,6 +9,7 @@ import { Grid } from './components/grid/Grid'
 import { Keyboard } from './components/keyboard/Keyboard'
 import { AboutModal } from './components/modals/AboutModal'
 import { InfoModal } from './components/modals/InfoModal'
+import { HelpModal } from './components/modals/HelpModal'
 import { StatsModal } from './components/modals/StatsModal'
 import {
   GAME_TITLE,
@@ -19,6 +20,7 @@ import {
   NOT_ENOUGH_LETTERS_MESSAGE,
   WORD_NOT_FOUND_MESSAGE,
   CORRECT_WORD_MESSAGE,
+  GET_HELP_MESSAGE,
 } from './constants/strings'
 import { isWordInWordList, isWinningWord, solution } from './lib/words'
 import { addStatsForCompletedGame, loadStats } from './lib/stats'
@@ -40,6 +42,7 @@ function App() {
   const [currentGuess, setCurrentGuess] = useState('')
   const [isGameWon, setIsGameWon] = useState(false)
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false)
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false)
   const [isNotEnoughLetters, setIsNotEnoughLetters] = useState(false)
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
@@ -169,6 +172,7 @@ function App() {
           onClick={() => setIsStatsModalOpen(true)}
         />
       </div>
+
       <Grid guesses={guesses} currentGuess={currentGuess} />
       <Keyboard
         onChar={onChar}
@@ -197,20 +201,36 @@ function App() {
         handleClose={() => setIsAboutModalOpen(false)}
       />
 
-      <button
-        type="button"
-        className="mx-auto mt-8 flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 select-none"
-        onClick={() => setIsAboutModalOpen(true)}
-      >
-        {ABOUT_GAME_MESSAGE}
-      </button>
+      <HelpModal
+        isOpen={isHelpModalOpen}
+        guesses={guesses}
+        handleClose={() => setIsHelpModalOpen(false)}
+      />
+
+      <div className="flex w-80 mx-auto items-center">
+        <button
+          type="button"
+          className="mx-auto mt-8 flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 select-none"
+          onClick={() => setIsAboutModalOpen(true)}
+        >
+          {ABOUT_GAME_MESSAGE}
+        </button>
+
+        <button
+          type="button"
+          className="mx-auto mt-8 flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 select-none"
+          onClick={() => clearGameStateToLocalStorage({ guesses, solution })}
+        >
+          {RESET_GAME_MESSAGE}
+        </button>
+      </div>
 
       <button
         type="button"
         className="mx-auto mt-8 flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 select-none"
-        onClick={() => clearGameStateToLocalStorage({ guesses, solution })}
+        onClick={() => setIsHelpModalOpen(true)}
       >
-        {RESET_GAME_MESSAGE}
+        {GET_HELP_MESSAGE}
       </button>
 
       <Alert message={NOT_ENOUGH_LETTERS_MESSAGE} isOpen={isNotEnoughLetters} />
