@@ -13,6 +13,7 @@ export const HelpModal = ({
 }: Props) => {
   console.log("HelpModal...")
 
+  console.log("Current guesses: " + guesses.toString());
   return (
     <BaseModal title="About" isOpen={isOpen} handleClose={handleClose}>
       <p className="text-sm text-gray-500 dark:text-gray-300">
@@ -23,7 +24,6 @@ export const HelpModal = ({
         >
           check out the code here
         </a>{' '}
-        guesses[0]
       </p>
     </BaseModal>
   )
